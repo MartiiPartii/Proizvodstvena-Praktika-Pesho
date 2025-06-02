@@ -25,7 +25,7 @@ static void resizeQueue(Queue * queue, float factor) {
 
 
 void pushQueue(Queue * queue, QueueType val) {
-    if(queue->size >= queue->capacity) resizeQueue(queue, 2);
+    if(queue->size + 1 >= queue->capacity) resizeQueue(queue, 2);
     queue->buffer[queue->size++] = val;
 }
 
