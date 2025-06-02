@@ -1,72 +1,110 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
+#include "vector.h"
 #include "graph.h"
 
 
 
-void findPath(Graph * map, int startingPoint) {
-    int * pesho = (int *) calloc(map->vertexCount, sizeof(int));
-    ALLOC_ERR(pesho);
-
-    
-    int * police = (int *) calloc(map->vertexCount, sizeof(int));
-    ALLOC_ERR(police);
-    
-    int * from = (int *) calloc(map->vertexCount, sizeof(int));
-    ALLOC_ERR(from);
-    for(int i = 0; i < map->vertexCount; i++) {
-        from[i] = -1;
+void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDistance) {
+    if(startingPoint >= map->vertexCount) {
+        printf("\nPlease provide a valid starting point.");
+        return;
     }
 
-    pesho[startingPoint] = 1;
-    police[startingPoint] = 1;
+    if(peshoDistance > policeDistance) {
+        int * pesho = (int *) calloc(map->vertexCount, sizeof(int));
+        ALLOC_ERR(pesho);
 
-
-    Queue * dfsQueue = initQueue(map->vertexCount);
-    
-    pushQueue(dfsQueue, startingPoint);
-    while(dfsQueue->size) {
-
-        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-        int curr = popQueue(dfsQueue);
-        // printf("\nPopping %d", curr);
-        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-        // printf("\n");
-
+        
+        int * police = (int *) calloc(map->vertexCount, sizeof(int));
+        ALLOC_ERR(police);
+        
+        int * from = (int *) calloc(map->vertexCount, sizeof(int));
+        ALLOC_ERR(from);
         for(int i = 0; i < map->vertexCount; i++) {
-            int currNeighbourWeight = map->adjMatrix[curr][i];
-            if(currNeighbourWeight && currNeighbourWeight <= 5) {
-                if(!(police[i] && pesho[i])) {
-                    pesho[i] = 1;
-                    from[i] = curr;
-                    if(currNeighbourWeight <= 3) {
-                        police[i] = 1;
-                        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-                        // printf("\nPushing %d", i);
-                        pushQueue(dfsQueue, i);
-                        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-                        // printf("\n");
+            from[i] = -1;
+        }
+
+        pesho[startingPoint] = 1;
+        police[startingPoint] = 1;
+
+
+        Vector * dfsQueue = initVector(1);
+        
+        pushBackVector(dfsQueue, startingPoint);
+        while(dfsQueue->size) {
+
+            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+            int curr = popFrontVector(dfsQueue);
+            // printf("\nPopping %d", curr);
+            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+            // printf("\n");
+
+            for(int i = 0; i < map->vertexCount; i++) {
+                int currNeighbourWeight = map->adjMatrix[curr][i];
+                if(currNeighbourWeight && currNeighbourWeight <= peshoDistance) {
+                    if(!(police[i] && pesho[i])) {
+                        pesho[i] = 1;
+                        from[i] = curr;
+                        if(currNeighbourWeight <= policeDistance) {
+                            police[i] = 1;
+                            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+                            // printf("\nPushing %d", i);
+                            pushBackVector(dfsQueue, i);
+                            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+                            // printf("\n");
+                        }
                     }
                 }
             }
         }
+
+        releaseVector(dfsQueue);
+
+        // printf("\n%6s ", "Pesho");
+        // for(int i = 0; i < map->vertexCount; i++) {
+        //     printf("%2d ", pesho[i]);
+        // }
+        // printf("\n%6s ", "Police");
+        // for(int i = 0; i < map->vertexCount; i++) {
+        //     printf("%2d ", police[i]);
+        // }
+        // printf("\n%6s ", "From");
+        // for(int i = 0; i < map->vertexCount; i++) {
+        //     printf("%2d ", from[i]);
+        // }
+
+        Vector * pathStack = initVector(1);
+
+        for(int i = 0; i < map->vertexCount; i++) {
+            if(pesho[i] && !police[i]) {
+                pushBackVector(pathStack, i);
+                int curr = from[i];
+                while(curr >= 0) {
+                    pushBackVector(pathStack, curr);
+                    curr = from[curr];
+                }
+                break;
+            }
+        }
+
+        if(pathStack->size) {
+            printf("\n");
+            while(pathStack->size) {
+                int curr = popBackVector(pathStack);
+                printf("%d ", curr);
+                if(pathStack->size) printf("-> ");
+            }
+            printf("\n");
+        }
+
+        releaseVector(pathStack);
+        free(pesho);
+        free(police);
+        free(from);
+        return;
     }
-
-    releaseQueue(dfsQueue);
-
-    // printf("\n%6s ", "Pesho");
-    // for(int i = 0; i < map->vertexCount; i++) {
-    //     printf("%2d ", pesho[i]);
-    // }
-    // printf("\n%6s ", "Police");
-    // for(int i = 0; i < map->vertexCount; i++) {
-    //     printf("%2d ", police[i]);
-    // }
-    // printf("\n%6s ", "From");
-    // for(int i = 0; i < map->vertexCount; i++) {
-    //     printf("%2d ", from[i]);
-    // }
+    printf("\nNo safe nodes were found.");
 }
 
 
@@ -99,7 +137,7 @@ int main() {
 
     addEdge(map, 3, 4, 3);
 
-    findPath(map, 2);
+    findPath(map, 4, 3, 5);
     
     return 0;
 }
