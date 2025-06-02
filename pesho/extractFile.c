@@ -93,7 +93,7 @@ int findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
     int s;
     while ((s = fgetc(file)) != EOF)
     {
-        if (s == "#")
+        if (s == '#')
             break;
     }
 
