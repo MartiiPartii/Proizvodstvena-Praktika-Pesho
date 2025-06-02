@@ -107,7 +107,9 @@ int findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
             int X = abs(platforms[i].x - platforms[j].x);
             int Y = abs(platforms[j].y - platforms[i].y);
             int weight = sqrt(pow(X, 2) + pow(Y, 2));
-            addEdge(map, i, j, weight);
+
+            if (weight <= peshoSteps)
+                addEdge(map, i, j, weight);
         }
     }
 }
