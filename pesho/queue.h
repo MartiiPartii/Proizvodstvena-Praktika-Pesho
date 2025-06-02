@@ -1,6 +1,11 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#define ALLOC_ERR(PTR) if(PTR == NULL) { \
+    printf("\nError allocating memory."); \
+    exit(1); \
+}
+
 typedef int QueueType;
 
 typedef struct Queue {
