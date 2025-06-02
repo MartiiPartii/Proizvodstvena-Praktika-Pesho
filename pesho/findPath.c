@@ -4,7 +4,7 @@
 #include "graph.h"
 
 
-
+// Allocates memory for the arrays storing the visited nodes and the paths to them
 static void initArrays(int vertexCount, int ** pesho, int ** police, int ** from) {
     *pesho = (int *) calloc(vertexCount, sizeof(int));
     ALLOC_ERR(*pesho);
@@ -20,6 +20,7 @@ static void initArrays(int vertexCount, int ** pesho, int ** police, int ** from
 }
 
 
+// Finds the safe nodes from the graph
 static void findSafeNodes(Graph * map, int startingPoint, int ** pesho, int ** police, int ** from, int policeDistance, int peshoDistance) {
     Vector * dfsQueue = initVector(1);
         
@@ -57,7 +58,8 @@ static void findSafeNodes(Graph * map, int startingPoint, int ** pesho, int ** p
 }
 
 
-static void printPath(int vertexCount, int ** pesho, int ** police, int ** from) {
+// Prints out the path from the starting point to the first safe node encountered
+static int printPath(int vertexCount, int ** pesho, int ** police, int ** from) {
     Vector * pathStack = initVector(1);
 
     for(int i = 0; i < vertexCount; i++) {
@@ -80,44 +82,44 @@ static void printPath(int vertexCount, int ** pesho, int ** police, int ** from)
             if(pathStack->size) printf("-> ");
         }
         printf("\n");
+    } else {
+        releaseVector(pathStack);
+        return 0;
     }
-
+    
     releaseVector(pathStack);
+    return 1;
 }
 
 
+// Finds path for running away
 void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDistance) {
+    // Checks if the starting point exists
     if(startingPoint >= map->vertexCount) {
         printf("\nPlease provide a valid starting point.");
         return;
     }
 
     if(peshoDistance > policeDistance) {
+        // Stores which nodes can be visited by pesho, by the police and the path to them
         int * pesho, * police, * from;
         initArrays(map->vertexCount, &pesho, &police, &from);    
 
+        // Finds the safe nodes from the graph
         findSafeNodes(map, startingPoint, &pesho, &police, &from, policeDistance, peshoDistance);
-        
-        // printf("\n%6s ", "Pesho");
-        // for(int i = 0; i < map->vertexCount; i++) {
-        //     printf("%2d ", pesho[i]);
-        // }
-        // printf("\n%6s ", "Police");
-        // for(int i = 0; i < map->vertexCount; i++) {
-        //     printf("%2d ", police[i]);
-        // }
-        // printf("\n%6s ", "From");
-        // for(int i = 0; i < map->vertexCount; i++) {
-        //     printf("%2d ", from[i]);
-        // }
 
-        printPath(map->vertexCount, &pesho, &police, &from);
+        // Prints out the path from the starting point to the first safe node encountered
+        int result = printPath(map->vertexCount, &pesho, &police, &from);
 
+        // Releases the allocated memory
         free(pesho);
         free(police);
         free(from);
-        return;
+
+        if(result) return;
     }
+
+    // Outputs a message if there are no safe routes
     printf("\nNo safe nodes were found.");
 }
 
