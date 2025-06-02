@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
 #include "vector.h"
 #include "graph.h"
 
@@ -24,13 +23,13 @@ void findPath(Graph * map, int startingPoint) {
     police[startingPoint] = 1;
 
 
-    Queue * dfsQueue = initQueue(map->vertexCount);
+    Vector * dfsQueue = initVector(map->vertexCount);
     
-    pushQueue(dfsQueue, startingPoint);
+    pushBackVector(dfsQueue, startingPoint);
     while(dfsQueue->size) {
 
         // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-        int curr = popQueue(dfsQueue);
+        int curr = popFrontVector(dfsQueue);
         // printf("\nPopping %d", curr);
         // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
         // printf("\n");
@@ -45,7 +44,7 @@ void findPath(Graph * map, int startingPoint) {
                         police[i] = 1;
                         // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
                         // printf("\nPushing %d", i);
-                        pushQueue(dfsQueue, i);
+                        pushBackVector(dfsQueue, i);
                         // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
                         // printf("\n");
                     }
@@ -54,7 +53,7 @@ void findPath(Graph * map, int startingPoint) {
         }
     }
 
-    releaseQueue(dfsQueue);
+    releaseVector(dfsQueue);
 
     printf("\n%6s ", "Pesho");
     for(int i = 0; i < map->vertexCount; i++) {
@@ -100,7 +99,7 @@ int main() {
 
     addEdge(map, 3, 4, 3);
 
-    findPath(map, 0);
+    findPath(map, 4);
     
     return 0;
 }
