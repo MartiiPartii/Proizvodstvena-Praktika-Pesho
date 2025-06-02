@@ -9,7 +9,7 @@ typedef struct Platform
     int length;
 } Platform;
 
-int *findCoordinates(const char *name)
+Platform *findCoordinates(const char *name)
 {
 
     FILE *file = fopen(name, "r");
@@ -26,7 +26,8 @@ int *findCoordinates(const char *name)
     {
         if (s == '#')
         {
-            startColumn = currColumn;
+            if (length == 0)
+                startColumn = currColumn;
             length++;
         }
 
@@ -37,11 +38,12 @@ int *findCoordinates(const char *name)
                 if (platformsCount == capacity)
                 {
                     capacity *= 2;
-                    platforms = realloc(platforms, sizeof(int) * capacity);
+                    platforms = realloc(platforms, sizeof(Platform) * capacity);
                 }
-                platforms[platformsCount++].length = length;
-                platforms[platformsCount++].x = startColumn;
-                platforms[platformsCount++].y = currRow;
+                platforms[platformsCount].length = length;
+                platforms[platformsCount].x = startColumn;
+                platforms[platformsCount].y = currRow;
+                platformsCount++;
                 length = 0;
             }
 
@@ -63,16 +65,16 @@ int *findCoordinates(const char *name)
             capacity *= 2;
             platforms = realloc(platforms, sizeof(int) * capacity);
         }
-        platforms[platformsCount++].length = length;
-        platforms[platformsCount++].x = startColumn;
-        platforms[platformsCount++].y = currRow;
+        platforms[platformsCount].length = length;
+        platforms[platformsCount].x = startColumn;
+        platforms[platformsCount].y = currRow;
     }
 
     fclose(file);
 
     for (int i = 0; i < platformsCount; i++)
     {
-        printf("\n%d platform x: %d, y: %d, and is %d long", platforms[i].x, platforms[i].y, platforms[i].length);
+        printf("\n%d platform x: %d, y: %d, and is %d long", i, platforms[i].x, platforms[i].y, platforms[i].length);
     }
 
     return platforms;
@@ -85,7 +87,7 @@ int findEdgesWeight(const char *name, int *platforms)
 int main()
 {
     char *fileName = "map.txt";
-    int *platforms;
+    Platform *platforms;
 
     platforms = findCoordinates(fileName);
     findEdgesWeight(fileName, platforms);
