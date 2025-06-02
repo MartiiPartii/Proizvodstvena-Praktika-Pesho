@@ -40,8 +40,8 @@ int *findCoordinates(const char *name)
                     platforms = realloc(platforms, sizeof(int) * capacity);
                 }
                 platforms[platformsCount++].length = length;
-                platforms[platformsCount].x = startColumn;
-                platforms[platformsCount].y = currRow;
+                platforms[platformsCount++].x = startColumn;
+                platforms[platformsCount++].y = currRow;
                 length = 0;
             }
 
@@ -64,11 +64,16 @@ int *findCoordinates(const char *name)
             platforms = realloc(platforms, sizeof(int) * capacity);
         }
         platforms[platformsCount++].length = length;
-        platforms[platformsCount].x = startColumn;
-        platforms[platformsCount].y = currRow;
+        platforms[platformsCount++].x = startColumn;
+        platforms[platformsCount++].y = currRow;
     }
 
     fclose(file);
+
+    for (int i = 0; i < platformsCount; i++)
+    {
+        printf("\n%d platform x: %d, y: %d, and is %d long", platforms[i].x, platforms[i].y, platforms[i].length);
+    }
 
     return platforms;
 }
