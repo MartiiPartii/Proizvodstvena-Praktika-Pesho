@@ -87,31 +87,54 @@ Platform *findCoordinates(const char *name)
     return platforms;
 }
 
-int findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
+int findMinX(int startI, int startJ, int lengthI, int lengthJ)
+{
+    int min = abs(startI - startJ);
+    int Xi, Xj, X;
+
+    for (int k = 0; k < lengthI; k++)
+    {
+        for (int l = 0; l < lengthJ; l++)
+        {
+            Xj++;
+            X = abs(Xi - Xj);
+            if (X < min)
+                min = X;
+        }
+        Xi++;
+    }
+
+    return X;
+}
+
+Graph *findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
 {
     FILE *file = fopen(name, "r");
     int s;
     while ((s = fgetc(file)) != EOF)
     {
-        if (s == "#")
+        if (s == '#')
             break;
     }
 
     Graph *map;
     initGraph(platforms->count);
+    int X;
 
     for (int i = 0; i < platforms->count; i++)
     {
         for (int j = 0; j < platforms->count; j++)
         {
-            int X = abs(platforms[i].x - platforms[j].x);
+            X = findMinX(platforms[i].x, platforms[j].x, platforms[i].length, platforms[j].length);
             int Y = abs(platforms[j].y - platforms[i].y);
-            int weight = sqrt(pow(X, 2) + pow(Y, 2));
+            double weight = sqrt(pow(X, 2) + pow(Y, 2));
 
             if (weight <= peshoSteps)
                 addEdge(map, i, j, weight);
         }
     }
+
+    return map;
 }
 
 int main()
