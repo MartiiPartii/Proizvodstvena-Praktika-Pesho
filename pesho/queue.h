@@ -1,23 +1,14 @@
 #ifndef QUEUE_H
 #define QUEUE_H
+#include "vector.h"
 
-#define ALLOC_ERR(PTR) if(PTR == NULL) { \
-    printf("\nError allocating memory.\n"); \
-    exit(1); \
-}
-
-typedef int QueueType;
-
-typedef struct Queue {
-    QueueType * buffer;
-    int size;
-    int capacity;
-} Queue;
+typedef VectorType QueueType;
+typedef Vector Queue;
 
 Queue * initQueue(int initialCapacity);
 void pushQueue(Queue * queue, QueueType val);
-QueueType popQueue(Queue * queue);
-void printQueue(Queue * queue);
-void releaseQueue(Queue * queue);
+QueueType popQueue(Queue * Queue);
+void printQueue(Queue * Queue);
+void releaseQueue(Queue * Queue);
 
 #endif

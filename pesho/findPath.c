@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "queue.h"
+#include "vector.h"
 #include "graph.h"
 
 
@@ -55,18 +56,18 @@ void findPath(Graph * map, int startingPoint) {
 
     releaseQueue(dfsQueue);
 
-    // printf("\n%6s ", "Pesho");
-    // for(int i = 0; i < map->vertexCount; i++) {
-    //     printf("%2d ", pesho[i]);
-    // }
-    // printf("\n%6s ", "Police");
-    // for(int i = 0; i < map->vertexCount; i++) {
-    //     printf("%2d ", police[i]);
-    // }
-    // printf("\n%6s ", "From");
-    // for(int i = 0; i < map->vertexCount; i++) {
-    //     printf("%2d ", from[i]);
-    // }
+    printf("\n%6s ", "Pesho");
+    for(int i = 0; i < map->vertexCount; i++) {
+        printf("%2d ", pesho[i]);
+    }
+    printf("\n%6s ", "Police");
+    for(int i = 0; i < map->vertexCount; i++) {
+        printf("%2d ", police[i]);
+    }
+    printf("\n%6s ", "From");
+    for(int i = 0; i < map->vertexCount; i++) {
+        printf("%2d ", from[i]);
+    }
 }
 
 
@@ -99,7 +100,7 @@ int main() {
 
     addEdge(map, 3, 4, 3);
 
-    findPath(map, 2);
+    findPath(map, 0);
     
     return 0;
 }
