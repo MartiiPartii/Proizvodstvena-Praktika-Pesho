@@ -64,15 +64,15 @@ void releaseQueue(Queue * queue) {
 
 
 
-int main() {
-    Queue * queue = initQueue(2);
-    pushQueue(queue, 2);
-    pushQueue(queue, 8);
-    pushQueue(queue, 4);
-    pushQueue(queue, 3);
-    popQueue(queue);
-    printQueue(queue);
-    free(queue);
+// int main() {
+//     Queue * queue = initQueue(2);
+//     pushQueue(queue, 2);
+//     pushQueue(queue, 8);
+//     pushQueue(queue, 4);
+//     pushQueue(queue, 3);
+//     popQueue(queue);
+//     printQueue(queue);
+//     free(queue);
 
-    return 0;
-}
+//     return 0;
+// }

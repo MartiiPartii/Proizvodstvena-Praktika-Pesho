@@ -29,18 +29,22 @@ void addEdge(Graph *graph, int vertex1, int vertex2, int weight)
 
 void printGraph(Graph *graph)
 {
-    printf("#");
+    printf("# |");
     for (int i = 0; i < graph->vertexCount; i++)
     {
-        printf("%d", i);
+        printf("%d ", i);
+    }
+    printf("\n--|");
+    for(int i = 0; i < graph->vertexCount; i++) {
+        printf("--");
     }
     printf("\n");
     for (int i = 0; i < graph->vertexCount; i++)
     {
-        printf("%d", i);
+        printf("%d |", i);
         for (int j = 0; j < graph->vertexCount; j++)
         {
-            printf("%d", graph->adjMatrix[i][j]);
+            printf("%d ", graph->adjMatrix[i][j]);
         }
         printf("\n");
     }
