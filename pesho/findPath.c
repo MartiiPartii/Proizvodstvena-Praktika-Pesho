@@ -5,6 +5,87 @@
 
 
 
+static void initArrays(int vertexCount, int ** pesho, int ** police, int ** from) {
+    *pesho = (int *) calloc(vertexCount, sizeof(int));
+    ALLOC_ERR(*pesho);
+    
+    *police = (int *) calloc(vertexCount, sizeof(int));
+    ALLOC_ERR(*police);
+    
+    *from = (int *) calloc(vertexCount, sizeof(int));
+    ALLOC_ERR(*from);
+    for(int i = 0; i < vertexCount; i++) {
+        (*from)[i] = -1;
+    }
+}
+
+
+static void findSafeNodes(Graph * map, int startingPoint, int ** pesho, int ** police, int ** from, int policeDistance, int peshoDistance) {
+    Vector * dfsQueue = initVector(1);
+        
+    pushBackVector(dfsQueue, startingPoint);
+    (*pesho)[startingPoint] = 1;
+    (*police)[startingPoint] = 1;
+    while(dfsQueue->size) {
+
+        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+        int curr = popFrontVector(dfsQueue);
+        // printf("\nPopping %d", curr);
+        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+        // printf("\n");
+        
+        for(int i = 0; i < map->vertexCount; i++) {
+            int currNeighbourWeight = map->adjMatrix[curr][i];
+            if(currNeighbourWeight && currNeighbourWeight <= peshoDistance) {
+                if(!((*police)[i] && (*pesho)[i])) {
+                    (*pesho)[i] = 1;
+                    (*from)[i] = curr;
+                    if(currNeighbourWeight <= policeDistance) {
+                        (*police)[i] = 1;
+                        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+                        // printf("\nPushing %d", i);
+                        pushBackVector(dfsQueue, i);
+                        // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
+                        // printf("\n");
+                    }
+                }
+            }
+        }
+    }
+
+    releaseVector(dfsQueue);
+}
+
+
+static void printPath(int vertexCount, int ** pesho, int ** police, int ** from) {
+    Vector * pathStack = initVector(1);
+
+    for(int i = 0; i < vertexCount; i++) {
+        if((*pesho)[i] && !(*police)[i]) {
+            pushBackVector(pathStack, i);
+            int curr = (*from)[i];
+            while(curr >= 0) {
+                pushBackVector(pathStack, curr);
+                curr = (*from)[curr];
+            }
+            break;
+        }
+    }
+
+    if(pathStack->size) {
+        printf("\n");
+        while(pathStack->size) {
+            int curr = popBackVector(pathStack);
+            printf("%d ", curr);
+            if(pathStack->size) printf("-> ");
+        }
+        printf("\n");
+    }
+
+    releaseVector(pathStack);
+}
+
+
 void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDistance) {
     if(startingPoint >= map->vertexCount) {
         printf("\nPlease provide a valid starting point.");
@@ -12,55 +93,11 @@ void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDista
     }
 
     if(peshoDistance > policeDistance) {
-        int * pesho = (int *) calloc(map->vertexCount, sizeof(int));
-        ALLOC_ERR(pesho);
+        int * pesho, * police, * from;
+        initArrays(map->vertexCount, &pesho, &police, &from);    
 
+        findSafeNodes(map, startingPoint, &pesho, &police, &from, policeDistance, peshoDistance);
         
-        int * police = (int *) calloc(map->vertexCount, sizeof(int));
-        ALLOC_ERR(police);
-        
-        int * from = (int *) calloc(map->vertexCount, sizeof(int));
-        ALLOC_ERR(from);
-        for(int i = 0; i < map->vertexCount; i++) {
-            from[i] = -1;
-        }
-
-        pesho[startingPoint] = 1;
-        police[startingPoint] = 1;
-
-
-        Vector * dfsQueue = initVector(1);
-        
-        pushBackVector(dfsQueue, startingPoint);
-        while(dfsQueue->size) {
-
-            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-            int curr = popFrontVector(dfsQueue);
-            // printf("\nPopping %d", curr);
-            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-            // printf("\n");
-
-            for(int i = 0; i < map->vertexCount; i++) {
-                int currNeighbourWeight = map->adjMatrix[curr][i];
-                if(currNeighbourWeight && currNeighbourWeight <= peshoDistance) {
-                    if(!(police[i] && pesho[i])) {
-                        pesho[i] = 1;
-                        from[i] = curr;
-                        if(currNeighbourWeight <= policeDistance) {
-                            police[i] = 1;
-                            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-                            // printf("\nPushing %d", i);
-                            pushBackVector(dfsQueue, i);
-                            // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
-                            // printf("\n");
-                        }
-                    }
-                }
-            }
-        }
-
-        releaseVector(dfsQueue);
-
         // printf("\n%6s ", "Pesho");
         // for(int i = 0; i < map->vertexCount; i++) {
         //     printf("%2d ", pesho[i]);
@@ -74,31 +111,8 @@ void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDista
         //     printf("%2d ", from[i]);
         // }
 
-        Vector * pathStack = initVector(1);
+        printPath(map->vertexCount, &pesho, &police, &from);
 
-        for(int i = 0; i < map->vertexCount; i++) {
-            if(pesho[i] && !police[i]) {
-                pushBackVector(pathStack, i);
-                int curr = from[i];
-                while(curr >= 0) {
-                    pushBackVector(pathStack, curr);
-                    curr = from[curr];
-                }
-                break;
-            }
-        }
-
-        if(pathStack->size) {
-            printf("\n");
-            while(pathStack->size) {
-                int curr = popBackVector(pathStack);
-                printf("%d ", curr);
-                if(pathStack->size) printf("-> ");
-            }
-            printf("\n");
-        }
-
-        releaseVector(pathStack);
         free(pesho);
         free(police);
         free(from);
@@ -137,7 +151,7 @@ int main() {
 
     addEdge(map, 3, 4, 3);
 
-    findPath(map, 4, 3, 5);
+    findPath(map, 2, 3, 5);
     
     return 0;
 }
