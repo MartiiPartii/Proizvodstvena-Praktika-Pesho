@@ -9,10 +9,9 @@ typedef struct Platform
     int y;
     int length;
     int val;
-    int count;
 } Platform;
 
-Platform *findCoordinates(const char *name)
+Platform *findCoordinates(const char *name, int *platformsCount)
 {
 
     FILE *file = fopen(name, "r");
@@ -21,11 +20,9 @@ Platform *findCoordinates(const char *name)
     int currRow = 1, currColumn = 1, startColumn = 1;
 
     // array of platforms of the platforms
-    int length = 0, i = 0, capacity = 10;
+    int length = 0, i = 0, count = 0, capacity = 10;
     // int *platforms = (int *)malloc(sizeof(int) * capacity);
     Platform *platforms = malloc(sizeof(Platform) * capacity);
-
-    platforms->count = 0;
 
     while ((s = fgetc(file)) != EOF)
     {
@@ -40,16 +37,16 @@ Platform *findCoordinates(const char *name)
         {
             if (length > 0)
             {
-                if (platforms->count == capacity)
+                if (*platformsCount == capacity)
                 {
                     capacity *= 2;
                     platforms = realloc(platforms, sizeof(Platform) * capacity);
                 }
-                platforms[platforms->count].val = platforms->count;
-                platforms[platforms->count].length = length;
-                platforms[platforms->count].x = startColumn;
-                platforms[platforms->count].y = currRow;
-                platforms->count++;
+                platforms[count].val = count;
+                platforms[count].length = length;
+                platforms[count].x = startColumn;
+                platforms[count].y = currRow;
+                count++;
                 length = 0;
             }
 
@@ -66,48 +63,52 @@ Platform *findCoordinates(const char *name)
 
     if (length > 0)
     {
-        if (platforms->count == capacity)
+        if (*platformsCount == capacity)
         {
             capacity *= 2;
             platforms = realloc(platforms, sizeof(int) * capacity);
         }
-        platforms[platforms->count].val = platforms->count;
-        platforms[platforms->count].length = length;
-        platforms[platforms->count].x = startColumn;
-        platforms[platforms->count].y = currRow;
+        platforms[count].val = count;
+        platforms[count].length = length;
+        platforms[count].x = startColumn;
+        platforms[count].y = currRow;
     }
 
     fclose(file);
 
-    for (int i = 0; i < platforms->count; i++)
+    for (int i = 0; i < count; i++)
     {
         printf("\n%d platform x: %d, y: %d, and is %d long", i, platforms[i].x, platforms[i].y, platforms[i].length);
     }
+    printf("\n");
 
+    *platformsCount = count;
     return platforms;
 }
 
 int findMinX(int startI, int startJ, int lengthI, int lengthJ)
 {
     int min = abs(startI - startJ);
-    int Xi, Xj, X;
+    int X;
+    int Xi = startI, Xj = startJ;
 
     for (int k = 0; k < lengthI; k++)
     {
         for (int l = 0; l < lengthJ; l++)
         {
-            Xj++;
             X = abs(Xi - Xj);
             if (X < min)
                 min = X;
+            Xj++;
         }
         Xi++;
+        Xj = startJ;
     }
 
-    return X;
+    return min;
 }
 
-Graph *findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
+Graph *findEdgesWeight(const char *name, Platform *platforms, int platformsCount, int peshoSteps)
 {
     FILE *file = fopen(name, "r");
     int s;
@@ -117,13 +118,12 @@ Graph *findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
             break;
     }
 
-    Graph *map;
-    initGraph(platforms->count);
+    Graph *map = initGraph(platformsCount);
     int X;
 
-    for (int i = 0; i < platforms->count; i++)
+    for (int i = 0; i < platformsCount; i++)
     {
-        for (int j = 0; j < platforms->count; j++)
+        for (int j = 0; j < platformsCount; j++)
         {
             X = findMinX(platforms[i].x, platforms[j].x, platforms[i].length, platforms[j].length);
             int Y = abs(platforms[j].y - platforms[i].y);
@@ -134,15 +134,21 @@ Graph *findEdgesWeight(const char *name, Platform *platforms, int peshoSteps)
         }
     }
 
+    printGraph(map);
+
     return map;
 }
 
 int main()
 {
     const char *fileName = "map.txt";
-    Platform *platforms;
-    int steps = 5;
 
-    platforms = findCoordinates(fileName);
-    findEdgesWeight(fileName, platforms, steps);
+    int steps = 6;
+    int platformsCount;
+
+    Platform *platforms = findCoordinates(fileName, &platformsCount);
+
+    findEdgesWeight(fileName, platforms, platformsCount, steps);
+
+    // printGraph(ma/p);
 }
