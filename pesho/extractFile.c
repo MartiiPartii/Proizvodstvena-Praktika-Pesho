@@ -1,68 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "graph.h"
 
-int *findCoordinates(name)
+typedef struct Platform
+{
+    int x;
+    int y;
+    int length;
+} Platform;
+
+int *findCoordinates(const char *name)
 {
 
     FILE *file = fopen(name, "r");
     int s;
     // x and y of the file
-    int curr_row = 1, curr_column = 1;
+    int currRow = 1, currColumn = 1, startColumn = 1;
 
-    // array of lengths of the platforms
-    int length = 0, i = 0, lengths_count = 0, capacity = 10;
-    int *lengths = (int *)malloc(sizeof(int) * capacity);
+    // array of platforms of the platforms
+    int length = 0, i = 0, platformsCount = 0, capacity = 10;
+    // int *platforms = (int *)malloc(sizeof(int) * capacity);
+    Platform *platforms = malloc(sizeof(Platform) * capacity);
 
     while ((s = fgetc(file)) != EOF)
     {
         if (s == '#')
+        {
+            startColumn = currColumn;
             length++;
+        }
 
         else
         {
             if (length > 0)
             {
-                if (lengths_count == capacity)
+                if (platformsCount == capacity)
                 {
                     capacity *= 2;
-                    lengths = realloc(lengths, sizeof(int) * capacity);
+                    platforms = realloc(platforms, sizeof(int) * capacity);
                 }
-                lengths[lengths_count++] = length;
+                platforms[platformsCount++].length = length;
+                platforms[platformsCount].x = startColumn;
+                platforms[platformsCount].y = currRow;
                 length = 0;
             }
 
             if (s == '\n')
             {
-                curr_row++;
-                curr_column = 1;
+                currRow++;
+                currColumn = 1;
                 continue;
             }
         }
 
-        curr_column++;
+        currColumn++;
     }
 
     if (length > 0)
     {
-        if (lengths_count == capacity)
+        if (platformsCount == capacity)
         {
             capacity *= 2;
-            lengths = realloc(lengths, sizeof(int) * capacity);
+            platforms = realloc(platforms, sizeof(int) * capacity);
         }
-        lengths[lengths_count++] = length;
+        platforms[platformsCount++].length = length;
+        platforms[platformsCount].x = startColumn;
+        platforms[platformsCount].y = currRow;
     }
 
     fclose(file);
 
-    return lengths;
+    return platforms;
 }
 
-int findEdgesWeight() {}
+int findEdgesWeight(const char *name, int *platforms)
+{
+}
 
 int main()
 {
     char *fileName = "map.txt";
-    int *lengths;
+    int *platforms;
 
-    lengths = findCoordinates(fileName);
+    platforms = findCoordinates(fileName);
+    findEdgesWeight(fileName, platforms);
 }
