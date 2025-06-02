@@ -4,7 +4,8 @@
 #include "graph.h"
 
 int main() {
-    printf("\nFind path");
+    Graph * map = initGraph(6);
+    printGraph(map);
     
     return 0;
 }
