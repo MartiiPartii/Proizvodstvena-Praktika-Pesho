@@ -47,6 +47,16 @@ VectorType popFrontVector(Vector * vector) {
 
 
 
+VectorType popBackVector(Vector * vector) {
+    VectorType result = vector->buffer[--vector->size];
+
+    if(vector->size <= vector->capacity / 2) resizeVector(vector, 0.5);
+
+    return result;
+}
+
+
+
 void printVector(Vector * vector) {
     printf("\n");
     for(int i = 0; i < vector->size; i++) {

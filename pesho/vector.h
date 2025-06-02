@@ -17,6 +17,7 @@ typedef struct Vector {
 Vector * initVector(int initialCapacity);
 void pushBackVector(Vector * vector, VectorType val);
 VectorType popFrontVector(Vector * vector);
+VectorType popBackVector(Vector * vector);
 void printVector(Vector * vector);
 void releaseVector(Vector * vector);
 
