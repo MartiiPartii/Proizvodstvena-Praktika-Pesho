@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "vector.h"
+#include "../../errorHandle.h"
 
 Vector * initVector(int initialCapacity) {
     Vector * vector = (Vector *) malloc(sizeof(Vector));

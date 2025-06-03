@@ -1,11 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#define ALLOC_ERR(PTR) if(PTR == NULL) { \
-    printf("\nError allocating memory.\n"); \
-    exit(1); \
-}
-
 typedef int VectorType;
 
 typedef struct Vector {
