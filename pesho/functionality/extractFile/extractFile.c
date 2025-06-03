@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../../dataStructures/graph/graph.h"
 #include "extractFile.h"
+#include "../../errorHandle.h"
 #include <math.h>
 
 // function to find the coordinates of a platform
@@ -17,6 +18,7 @@ Platform *findCoordinates(const char *name, int *platformsCount)
     int length = 0, count = 0, capacity = 10;
     // int *platforms = (int *)malloc(sizeof(int) * capacity);
     Platform *platforms = malloc(sizeof(Platform) * capacity);
+    ALLOC_ERR(platforms);
 
     while ((s = fgetc(file)) != EOF)
     {

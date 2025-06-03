@@ -10,6 +10,7 @@ int main()
     int peshoSteps = 0, start = 0, policeJump = 0;
     int platformsCount;
     char *fileName = malloc(sizeof(char) * MAX_PATH_LENGTH);
+    ALLOC_ERR(fileName);
 
     printf("How many steps is Pesho's jump: ");
     scanf("%d", &peshoSteps);
