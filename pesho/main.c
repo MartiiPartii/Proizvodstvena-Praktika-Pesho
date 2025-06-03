@@ -4,6 +4,8 @@
 #include "errorHandle.h"
 #include "./functionality/findPath/findPath.h"
 #include "./functionality/extractFile/extractFile.h"
+#include "./dataStructures/graph/graph.h"
+#include "./dataStructures/vector/vector.h"
 
 int main()
 {
@@ -23,8 +25,9 @@ int main()
 
     printf("From wich platform do you want Pesho to start: ");
     scanf("%d", &start);
+    printf("\nStart: %d", start);
 
-    printf("%d %s", peshoSteps, fileName);
+    printf("\n%d %s", peshoSteps, fileName);
 
     Graph *map = createGraph(fileName, platformsCount, peshoSteps);
     findPath(map, start, policeJump, peshoSteps);

@@ -126,35 +126,35 @@ void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDista
 
 
 
-int main() {
-    // Graph * map = initGraph(6);
+// int main() {
+//     // Graph * map = initGraph(6);
 
-    // addEdge(map, 0, 4, 3);
-    // addEdge(map, 0, 5, 3);
-    // addEdge(map, 0, 1, 1);
+//     // addEdge(map, 0, 4, 3);
+//     // addEdge(map, 0, 5, 3);
+//     // addEdge(map, 0, 1, 1);
 
-    // addEdge(map, 1, 4, 4);
-    // addEdge(map, 1, 3, 4);
-    // addEdge(map, 1, 5, 4);
+//     // addEdge(map, 1, 4, 4);
+//     // addEdge(map, 1, 3, 4);
+//     // addEdge(map, 1, 5, 4);
 
-    // addEdge(map, 2, 4, 3);
+//     // addEdge(map, 2, 4, 3);
 
-    // addEdge(map, 4, 5, 2);
+//     // addEdge(map, 4, 5, 2);
 
-    // printGraph(map);
+//     // printGraph(map);
 
-    Graph * map = initGraph(5);
+//     Graph * map = initGraph(5);
 
-    addEdge(map, 0, 1, 4);
+//     addEdge(map, 0, 1, 4);
 
-    addEdge(map, 1, 2, 5);
-    addEdge(map, 1, 3, 2);
+//     addEdge(map, 1, 2, 5);
+//     addEdge(map, 1, 3, 2);
 
-    addEdge(map, 2, 4, 3);
+//     addEdge(map, 2, 4, 3);
 
-    addEdge(map, 3, 4, 3);
+//     addEdge(map, 3, 4, 3);
 
-    findPath(map, 2, 3, 5);
+//     findPath(map, 2, 3, 5);
     
-    return 0;
-}
+//     return 0;
+// }
