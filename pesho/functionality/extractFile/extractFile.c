@@ -111,7 +111,7 @@ int findMinX(int startI, int startJ, int lengthI, int lengthJ)
         Xj = startJ;
     }
 
-    return min;
+    return min - 1;
 }
 
 // Exporting to file to graph
@@ -161,5 +161,5 @@ Graph *createGraph(const char *fileName, int platformsCount, int peshoSteps)
 
 //     createGraph(fileName, platformsCount, steps);
 
-//     // printGraph(ma/p);
+//     // printGraph(map);
 // }
