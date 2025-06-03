@@ -148,16 +148,16 @@ Graph *createGraph(const char *fileName, int platformsCount, int peshoSteps)
     return map;
 }
 
-int main()
-{
-    const char *fileName = "map.txt";
+// int main()
+// {
+//     const char *fileName = "map.txt";
 
-    int steps = 6;
-    int platformsCount;
+//     int steps = 6;
+//     int platformsCount;
 
-    // Platform *platforms = findCoordinates(fileName, &platformsCount);
+//     // Platform *platforms = findCoordinates(fileName, &platformsCount);
 
-    createGraph(fileName, platformsCount, steps);
+//     createGraph(fileName, platformsCount, steps);
 
-    // printGraph(ma/p);
-}
+//     // printGraph(ma/p);
+// }
