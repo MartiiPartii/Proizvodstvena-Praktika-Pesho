@@ -18,6 +18,6 @@ Platform *findCoordinates(const char *name, int *platformsCount);
 int findMinX(int startI, int startJ, int lengthI, int lengthJ);
 
 // Exporting to file to graph
-Graph *createGraph(const char *name, Platform *platforms, int platformsCount, int peshoSteps);
+Graph *createGraph(const char *fileName, int platformsCount, int peshoSteps);
 
 #endif
