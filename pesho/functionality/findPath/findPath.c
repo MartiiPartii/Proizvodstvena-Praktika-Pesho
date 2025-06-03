@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "dataStructures/vector/vector.h"
-#include "dataStructures/graph/graph.h"
-#include "errorHandle.h"
+#include "../../dataStructures/vector/vector.h"
+#include "../../dataStructures/graph/graph.h"
+#include "../../errorHandle.h"
 
 
 // Allocates memory for the arrays storing the visited nodes and the paths to them

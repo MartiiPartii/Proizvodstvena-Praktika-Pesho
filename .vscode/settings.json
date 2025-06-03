@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "graph.h": "c"
+        "graph.h": "c",
+        "errorhandle.h": "c",
+        "extractfile.h": "c"
     }
 }

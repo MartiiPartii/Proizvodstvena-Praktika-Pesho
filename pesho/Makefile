@@ -1,11 +1,11 @@
 all: findPath.exe
 	./findPath.exe
 
-findPath.exe: findPath.c graph.o vector.o
-	gcc findPath.c graph.o vector.o -o findPath.exe
+findPath.exe: functionality/findPath/findPath.c graph.o vector.o
+	gcc functionality/findPath/findPath.c graph.o vector.o -o findPath.exe
 
-extractFile.exe: extractFile.c graph.o
-	gcc extractFile.c graph.o -o extractFile.exe
+extractFile.exe: functionality/extractFile/extractFile.c graph.o
+	gcc functionality/extractFile/extractFile.c graph.o -o extractFile.exe
 	./extractFile.exe
 
 graph.o: dataStructures/graph/graph.c dataStructures/graph/graph.h

@@ -1,6 +1,6 @@
 #ifndef EXTRACT_H
 #define EXTRACT_H
-#include "dataStructures/graph/graph.h"
+#include "../../dataStructures/graph/graph.h"
 
 // struct for each platform's coordinates and length
 typedef struct Platform

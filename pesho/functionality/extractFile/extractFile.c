@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "dataStructures/graph/graph.h"
+#include "../../dataStructures/graph/graph.h"
 #include "extractFile.h"
 #include <math.h>
 
