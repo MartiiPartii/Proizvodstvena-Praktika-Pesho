@@ -22,4 +22,6 @@ void addEdge(Graph *graph, int vertex1, int vertex2, int weight);
 
 void printGraph(Graph *graph);
 
+void releaseGraph(Graph *graph);
+
 #endif

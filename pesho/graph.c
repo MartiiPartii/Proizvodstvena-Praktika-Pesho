@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "graph.h"
 
+// init graph
 Graph *initGraph(int vertexCount)
 {
     Graph *graph = (Graph *)malloc(sizeof(Graph));
@@ -16,6 +17,8 @@ Graph *initGraph(int vertexCount)
     return graph;
 }
 
+// add Graph
+
 void addEdgeDirectional(Graph *graph, int from, int to, int weight)
 {
     graph->adjMatrix[from][to] = weight;
@@ -27,6 +30,8 @@ void addEdge(Graph *graph, int vertex1, int vertex2, int weight)
     addEdgeDirectional(graph, vertex2, vertex1, weight);
 }
 
+// print Graph
+
 void printGraph(Graph *graph)
 {
     printf("# |");
@@ -35,7 +40,8 @@ void printGraph(Graph *graph)
         printf("%d ", i);
     }
     printf("\n--|");
-    for(int i = 0; i < graph->vertexCount; i++) {
+    for (int i = 0; i < graph->vertexCount; i++)
+    {
         printf("--");
     }
     printf("\n");
@@ -48,4 +54,17 @@ void printGraph(Graph *graph)
         }
         printf("\n");
     }
+}
+
+// release Graph
+void releaseGraph(Graph *graph)
+{
+
+    for (int i = 0; i < graph->vertexCount; i++)
+    {
+        free(graph->adjMatrix[i]);
+    }
+
+    free(graph->adjMatrix);
+    free(graph);
 }
