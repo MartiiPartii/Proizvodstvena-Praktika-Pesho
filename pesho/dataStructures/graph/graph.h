@@ -10,15 +10,15 @@ typedef struct Node
 typedef struct Graph
 {
     int vertexCount;
-    int **adjMatrix;
+    double **adjMatrix;
 
 } Graph;
 
 Graph *initGraph(int vertexCount);
 
-void addEdgeDirectional(Graph *graph, int from, int to, int weight);
+void addEdgeDirectional(Graph *graph, int from, int to, double weight);
 
-void addEdge(Graph *graph, int vertex1, int vertex2, int weight);
+void addEdge(Graph *graph, int vertex1, int vertex2, double weight);
 
 void printGraph(Graph *graph);
 
