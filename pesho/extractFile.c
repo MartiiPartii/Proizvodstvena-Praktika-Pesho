@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "graph.h"
+#include "dataStructures/graph/graph.h"
 #include <math.h>
 
 // struct for each platform's coordinates and length
