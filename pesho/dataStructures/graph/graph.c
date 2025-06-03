@@ -1,17 +1,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "graph.h"
+#include "../../errorHandle.h"
 
 // init graph
 Graph *initGraph(int vertexCount)
 {
     Graph *graph = (Graph *)malloc(sizeof(Graph));
+    ALLOC_ERR(graph);
     graph->vertexCount = vertexCount;
     graph->adjMatrix = (int **)malloc(sizeof(int *) * vertexCount);
+    ALLOC_ERR(graph->adjMatrix);
 
     for (int i = 0; i < vertexCount; i++)
     {
         graph->adjMatrix[i] = (int *)calloc(vertexCount, sizeof(int));
+        ALLOC_ERR(graph->adjMatrix[i])
     }
 
     return graph;
