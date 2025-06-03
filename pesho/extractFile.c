@@ -1,16 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "dataStructures/graph/graph.h"
+#include "extractFile.h"
 #include <math.h>
-
-// struct for each platform's coordinates and length
-typedef struct Platform
-{
-    int x;
-    int y;
-    int length;
-    int val;
-} Platform;
 
 // function to find the coordinates of a platform
 Platform *findCoordinates(const char *name, int *platformsCount)
