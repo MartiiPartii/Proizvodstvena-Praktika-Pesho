@@ -10,7 +10,7 @@
 int main()
 {
     int peshoSteps = 0, start = 0, policeJump = 0;
-    int platformsCount;
+    int platformsCount = 0;
     char *fileName = malloc(sizeof(char) * MAX_PATH_LENGTH);
     ALLOC_ERR(fileName);
 

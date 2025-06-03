@@ -9,12 +9,12 @@ Graph *initGraph(int vertexCount)
     Graph *graph = (Graph *)malloc(sizeof(Graph));
     ALLOC_ERR(graph);
     graph->vertexCount = vertexCount;
-    graph->adjMatrix = (int **)malloc(sizeof(int *) * vertexCount);
+    graph->adjMatrix = (double **)malloc(sizeof(double *) * vertexCount);
     ALLOC_ERR(graph->adjMatrix);
 
     for (int i = 0; i < vertexCount; i++)
     {
-        graph->adjMatrix[i] = (int *)calloc(vertexCount, sizeof(int));
+        graph->adjMatrix[i] = (double *)calloc(vertexCount, sizeof(double));
         ALLOC_ERR(graph->adjMatrix[i])
     }
 
@@ -23,13 +23,14 @@ Graph *initGraph(int vertexCount)
 
 // add Graph
 
-void addEdgeDirectional(Graph *graph, int from, int to, int weight)
+void addEdgeDirectional(Graph *graph, int from, int to, double weight)
 {
     graph->adjMatrix[from][to] = weight;
 }
 
-void addEdge(Graph *graph, int vertex1, int vertex2, int weight)
+void addEdge(Graph *graph, int vertex1, int vertex2, double weight)
 {
+    // printf("\nWeight: %f", weight);
     addEdgeDirectional(graph, vertex1, vertex2, weight);
     addEdgeDirectional(graph, vertex2, vertex1, weight);
 }
@@ -41,12 +42,12 @@ void printGraph(Graph *graph)
     printf("# |");
     for (int i = 0; i < graph->vertexCount; i++)
     {
-        printf("%d ", i);
+        printf("%4d ", i);
     }
     printf("\n--|");
     for (int i = 0; i < graph->vertexCount; i++)
     {
-        printf("--");
+        printf("-----");
     }
     printf("\n");
     for (int i = 0; i < graph->vertexCount; i++)
@@ -54,7 +55,7 @@ void printGraph(Graph *graph)
         printf("%d |", i);
         for (int j = 0; j < graph->vertexCount; j++)
         {
-            printf("%d ", graph->adjMatrix[i][j]);
+            printf("%2.2f ", graph->adjMatrix[i][j]);
         }
         printf("\n");
     }
