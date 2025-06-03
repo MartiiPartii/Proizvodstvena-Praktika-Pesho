@@ -14,11 +14,17 @@ int main()
     char *fileName = malloc(sizeof(char) * MAX_PATH_LENGTH);
     ALLOC_ERR(fileName);
 
-    printf("How many steps is Pesho's jump: ");
-    scanf("%d", &peshoSteps);
+    do {
+        printf("\nHow many steps is Pesho's jump: ");
+        scanf("%d", &peshoSteps);
+        if(peshoSteps < 0) printf("\nPlease enter a non negative number.");
+    } while(peshoSteps < 0);
 
-    printf("How many steps can the police jump: ");
-    scanf("%d", &policeJump);
+    do {
+        printf("How many steps can the police jump: ");
+        scanf("%d", &policeJump);
+        if(policeJump < 0) printf("\nPlease enter a non negative number.");
+    } while(policeJump < 0);
 
     getchar();
     printf("Enter file's path: ");
