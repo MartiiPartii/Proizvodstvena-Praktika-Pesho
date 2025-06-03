@@ -4,6 +4,10 @@ all: main.exe
 main.exe: main.c findPath.o extractFile.o graph.o vector.o
 	gcc main.c findPath.o extractFile.o graph.o vector.o -o main.exe
 
+extractFile.exe: functionality/extractFile/extractFile.c functionality/extractFile/extractFile.h graph.o
+	gcc functionality/extractFile/extractFile.c graph.o -o extractFile.exe
+	./extractFile.exe
+
 findPath.o: functionality/findPath/findPath.c
 	gcc -c functionality/findPath/findPath.c -o findPath.o
 

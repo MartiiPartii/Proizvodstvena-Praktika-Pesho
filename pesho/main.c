@@ -23,6 +23,9 @@ int main()
     getchar();
     printf("Enter file's path: ");
     fgets(fileName, MAX_PATH_LENGTH, stdin);
+    for(int i = 0; i < MAX_PATH_LENGTH; i++) {
+        if(fileName[i] == '\n') fileName[i] = '\0';
+    }
 
     printf("From wich platform do you want Pesho to start: ");
     scanf("%d", &start);
