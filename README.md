@@ -25,7 +25,7 @@
 <!-- PROJECT LOGO -->
 <br />
 
-<h1 align="center">Pesho the Kidnapper — Summer Practice Project (10th Grade)</h1>
+<h1 align="center">Pesho the Kidnapper — Summer Practice Project <br/> (10th Grade)</h1>
 
   <p align="center">
     🕵️ Pesho the Kidnapper Is on the Run!
