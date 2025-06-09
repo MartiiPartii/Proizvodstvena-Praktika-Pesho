@@ -22,12 +22,12 @@ static void initArrays(int vertexCount, int ** pesho, int ** police, int ** from
 
 
 // Finds the safe nodes from the graph
-static void findSafeNodes(Graph * map, int startingPoint, int ** pesho, int ** police, int ** from, int policeDistance, int peshoDistance) {
+static void findSafeNodes(Graph * map, int startingPoint, int * pesho, int * police, int * from, int policeDistance, int peshoDistance) {
     Vector * dfsQueue = initVector(1);
         
     pushBackVector(dfsQueue, startingPoint);
-    (*pesho)[startingPoint] = 1;
-    (*police)[startingPoint] = 1;
+    pesho[startingPoint] = 1;
+    police[startingPoint] = 1;
     while(dfsQueue->size) {
 
         // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
@@ -39,11 +39,11 @@ static void findSafeNodes(Graph * map, int startingPoint, int ** pesho, int ** p
         for(int i = 0; i < map->vertexCount; i++) {
             int currNeighbourWeight = map->adjMatrix[curr][i];
             if(currNeighbourWeight && currNeighbourWeight <= peshoDistance) {
-                if(!((*police)[i] && (*pesho)[i])) {
-                    (*pesho)[i] = 1;
-                    (*from)[i] = curr;
+                if(!(police[i] && pesho[i])) {
+                    pesho[i] = 1;
+                    from[i] = curr;
                     if(currNeighbourWeight <= policeDistance) {
-                        (*police)[i] = 1;
+                        police[i] = 1;
                         // printf("\nCapacity: %d; Size: %d", dfsQueue->capacity, dfsQueue->size);
                         // printf("\nPushing %d", i);
                         pushBackVector(dfsQueue, i);
@@ -60,16 +60,16 @@ static void findSafeNodes(Graph * map, int startingPoint, int ** pesho, int ** p
 
 
 // Prints out the path from the starting point to the first safe node encountered
-static int printPath(int vertexCount, int ** pesho, int ** police, int ** from) {
+static int printPath(int vertexCount, int * pesho, int * police, int * from) {
     Vector * pathStack = initVector(1);
 
     for(int i = 0; i < vertexCount; i++) {
-        if((*pesho)[i] && !(*police)[i]) {
+        if(pesho[i] && !police[i]) {
             pushBackVector(pathStack, i);
-            int curr = (*from)[i];
+            int curr = from[i];
             while(curr >= 0) {
                 pushBackVector(pathStack, curr);
-                curr = (*from)[curr];
+                curr = from[curr];
             }
             break;
         }
@@ -107,10 +107,10 @@ void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDista
         initArrays(map->vertexCount, &pesho, &police, &from);    
 
         // Finds the safe nodes from the graph
-        findSafeNodes(map, startingPoint, &pesho, &police, &from, policeDistance, peshoDistance);
+        findSafeNodes(map, startingPoint, pesho, police, from, policeDistance, peshoDistance);
 
         // Prints out the path from the starting point to the first safe node encountered
-        int result = printPath(map->vertexCount, &pesho, &police, &from);
+        int result = printPath(map->vertexCount, pesho, police, from);
 
         // Releases the allocated memory
         free(pesho);
