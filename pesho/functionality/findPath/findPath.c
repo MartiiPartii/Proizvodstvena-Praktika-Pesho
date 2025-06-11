@@ -96,7 +96,7 @@ static int printPath(int vertexCount, int * pesho, int * police, int * from) {
 // Finds path for running away
 void findPath(Graph * map, int startingPoint, int policeDistance, int peshoDistance) {
     // Checks if the starting point exists
-    if(startingPoint >= map->vertexCount) {
+    if(startingPoint >= map->vertexCount || startingPoint < 0) {
         printf("\nPlease provide a valid starting point.");
         return;
     }
