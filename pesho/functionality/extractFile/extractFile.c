@@ -80,11 +80,11 @@ Platform *findCoordinates(const char *name, int *platformsCount)
 
     fclose(file);
 
-    for (int i = 0; i < count; i++)
-    {
-        printf("\n%d platform x: %d, y: %d, and is %d long", i, platforms[i].x, platforms[i].y, platforms[i].length);
-    }
-    printf("\n");
+    // for (int i = 0; i < count; i++)
+    // {
+    //     printf("\n%d platform x: %d, y: %d, and is %d long", i, platforms[i].x, platforms[i].y, platforms[i].length);
+    // }
+    // printf("\n");
 
     // Sending the count
     *platformsCount = count;
@@ -121,6 +121,10 @@ Graph *createGraph(const char *fileName, int platformsCount, int peshoSteps)
     Platform *platforms = findCoordinates(fileName, &platformsCount);
 
     FILE *file = fopen(fileName, "r");
+    if(file == NULL) {
+        printf("\nPlease provide a valid file path.");
+        return NULL;
+    }
     int s;
     while ((s = fgetc(file)) != EOF)
     {

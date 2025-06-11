@@ -37,7 +37,7 @@ int main()
     scanf("%d", &start);
     printf("\nStart: %d", start);
 
-    printf("\n%d %s", peshoSteps, fileName);
+    printf("\n%d %s\n", peshoSteps, fileName);
 
     Graph *map = createGraph(fileName, platformsCount, peshoSteps);
     findPath(map, start, policeJump, peshoSteps);
